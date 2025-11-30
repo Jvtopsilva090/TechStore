@@ -1,105 +1,130 @@
-🏬 TechStore – Microservices Migration Architecture
+# 🏬 TechStore – Migração de Arquitetura Monolítica para Microsserviços
 
-<p align="center">
+Documentação técnica do projeto desenvolvido para a disciplina **Projeto Integrador III-A** da **PUC Goiás (EAD)**.  
+O objetivo é apresentar a proposta completa de modernização da arquitetura da empresa fictícia **TechStore**, migrando de um monólito para uma estrutura baseada em *microservices*.
 
+---
 
+## 📌 Objetivo do Projeto
 
+Transformar uma aplicação monolítica em uma arquitetura distribuída, focando em:
 
+- 🔹 Escalabilidade  
+- 🔹 Segurança da informação  
+- 🔹 Resiliência  
+- 🔹 Melhor desempenho  
+- 🔹 Maior autonomia entre equipes  
 
+---
 
+## 🎯 Objetivos Específicos
 
+- Analisar limitações do sistema atual;  
+- Definir os microsserviços e suas responsabilidades;  
+- Criar uma estratégia de migração segura e progressiva;  
+- Documentar mecanismos de segurança (CID);  
+- Apresentar diagramas e justificativas técnicas.
 
-</p>
-📘 Overview
+---
 
-This repository documents the migration of the TechStore system from a monolithic structure to a modern microservices architecture focused on scalability, resilience, and security.
+## 🏛️ Arquitetura Atual — Monolito
 
-A detailed proposal and technical documentation were created as part of the Projeto Integrador III-A (PUC Goiás - EAD).
+Atualmente, a TechStore possui um sistema único contendo:
 
-🗂️ Repository Structure
-/
-├── docs/
-│   ├── architecture.md
-│   ├── security.md
-│   ├── migration-plan.md
-│   └── diagrams/
-│       ├── high-level-architecture.png
-│       └── microservices-flow.png
-├── README.md
-└── Projeto_TechStore.pdf
+- Autenticação  
+- Catálogo de produtos  
+- Pedidos  
+- Pagamentos  
 
-🧩 Microservices Overview
-Service	Responsibilities	Tech	Database
-Auth Service	JWT, login, roles	Java + Spring	PostgreSQL
-Product Service	Products, stock, categories	Java + Spring	MongoDB
-Order Service	Orders, history	Java + Spring	PostgreSQL
-Payment Service	Gateway integration	Java + Spring	MySQL
-Notification Service	Emails, alerts	MQ Worker	Redis
-🏗️ High-Level Architecture Diagram
-                           ┌─────────────────────────────┐
-                           │         API Gateway          │
-                           └──────────────┬──────────────┘
-                                          │
-         ┌────────────────────────────────┼──────────────────────────────────┐
-         │                                │                                  │
-┌──────────────────┐          ┌──────────────────┐               ┌──────────────────┐
-│   Auth Service    │          │ Product Service  │               │  Order Service   │
-└──────────────────┘          └──────────────────┘               └──────────────────┘
-         │                                │                                  │
-         ▼                                ▼                                  ▼
- PostgreSQL                        MongoDB                        PostgreSQL
+### ❗ Principais problemas:
 
-         ┌────────────────────────────────┼──────────────────────────────────┐
-         │                                │                                  │
-┌──────────────────┐          ┌──────────────────┐               ┌──────────────────┐
-│ Payment Service   │          │ Notification Svc │               │ Message Broker   │
-└──────────────────┘          └──────────────────┘               └──────────────────┘
-         │                                │                                  │
-         ▼                                ▼                                  ▼
-      MySQL                             Redis                           RabbitMQ
+- Baixa escalabilidade  
+- Deploy complexo  
+- Alta dependência tecnológica  
+- Risco elevado de queda geral  
 
-🔐 Security Model (CID)
-Pillar	Mechanism	Goal
-Confidentiality	TLS + JWT	Protect sensitive data
-Integrity	Logs + HMAC	Ensure data consistency
-Availability	Replication + LB	Keep services online
-🌍 English Summary
+---
 
-The TechStore platform is being modernized using a microservices architecture.
-This transition enhances:
+## 🚀 Por que migrar?
 
-Scalability
+- Deploy mais rápido  
+- Melhor desempenho sob carga  
+- Redução de falhas sistêmicas  
+- Maior flexibilidade tecnológica  
+- Rastreabilidade e segurança aprimoradas  
 
-Deployment agility
+---
 
-Security
+## 🧩 Microsserviços Propostos
 
-Fault isolation
+| Service              | Responsibilities            | Technology    | Database   |
+| -------------------- | --------------------------- | ------------- | ---------- |
+| Auth Service         | JWT, login, roles           | Java + Spring | PostgreSQL |
+| Product Service      | Products, stock, categories | Java + Spring | MongoDB    |
+| Order Service        | Orders, history             | Java + Spring | PostgreSQL |
+| Payment Service      | Payment processing          | Java + Spring | MySQL      |
+| Notification Service | E-mails, alerts             | MQ Worker     | Redis      |
 
-Maintainability
+---
 
-Each domain of the system becomes an independent service, communicating through REST APIs and message queues (RabbitMQ).
+## 🛣️ Estratégia de Migração
 
-👥 Authors
+1️⃣ Criar Auth e Products paralelamente ao monólito  
+2️⃣ Implementar API Gateway  
+3️⃣ Migrar Pedidos e Pagamentos  
+4️⃣ Desativar módulo por módulo do monólito  
+5️⃣ Containerizar tudo com Docker + Kubernetes  
 
-João Vitor Ferreira da Silva
+---
 
-Pedro Nunes Marques Junior
+## 🔐 Segurança (CID)
 
-Victor Hugo Batista Pereira
+| Pillar          | Mechanism       | Purpose                      |
+| --------------- | --------------- | ---------------------------- |
+| Confidentiality | TLS, JWT        | Protect sensitive data       |
+| Integrity       | Logging, HMAC   | Prevent unauthorized changes |
+| Availability    | Replication, LB | Ensure system uptime         |
 
-Ariel Jorge da Silva
+---
 
-Leandro Batista de Sousa Galdido
+## 📝 Conclusão
 
-🎓 Academic Information
+A migração trará ganhos expressivos em:
 
-PUC Goiás – EAD
-Course: Análise e Desenvolvimento de Software
-Discipline: Projeto Integrador III-A
-Professor: José Ricardo Cosme Lerias Ribeiro
-Date: 01/11/2025
+- Velocidade de desenvolvimento  
+- Estabilidade  
+- Segurança  
+- Escalabilidade  
+- Independência entre equipes  
 
-📄 License
+O projeto demonstra como uma arquitetura moderna melhora a eficiência geral da TechStore.
 
-This project is distributed under the MIT License.
+---
+
+## 📚 Referências
+
+- Newman, S. *Building Microservices*. O'Reilly.  
+- Richardson, C. *Microservices Patterns*. Manning.  
+- Fowler, M. *Monolith to Microservices*. O'Reilly.  
+- ISO/IEC 27001:2013.
+
+---
+
+## 👥 Autores
+
+- João Vitor Ferreira da Silva  
+- Pedro Nunes Marques Junior  
+- Victor Hugo Batista Pereira  
+- Ariel Jorge da Silva  
+- Leandro Batista de Sousa Galdido  
+
+---
+
+## 📍 Instituição
+
+**PUC Goiás – EAD**  
+**Curso:** Análise e Desenvolvimento de Software  
+**Disciplina:** Projeto Integrador III-A  
+**Professor:** José Ricardo Cosme Lerias Ribeiro  
+**Cidade:** Goiânia  
+**Data:** 01/11/2025 
